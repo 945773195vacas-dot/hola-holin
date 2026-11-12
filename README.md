@@ -1,5 +1,4 @@
-```html
-<!DOCTYPE html>
+Markdown/Mermaid
 <html lang="es">
 <head>
     <meta charset="UTF-8">
