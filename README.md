@@ -1,2 +1,327 @@
-# hola-holin
-quechua PES 
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap de Aprendizaje: Quechua Central (Yachachinapaq Shimikuna)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'quechua-emerald': '#064e3b', // Emerald 900
+                        'quechua-green': '#047857',   // Emerald 700
+                        'quechua-mint': '#10b981',    // Emerald 500
+                        'quechua-light': '#ecfdf5',   // Emerald 50
+                        'quechua-accent': '#059669',  // Emerald 600
+                        'quechua-dark': '#022c22'     // Emerald 950
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #047857;
+            border-radius: 8px;
+        }
+        .pattern-bg {
+            background-color: #f8fafc;
+            background-image: radial-gradient(#a7f3d0 1px, transparent 1px);
+            background-size: 16px 16px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans pattern-bg min-h-screen flex flex-col">
+
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-800 text-white shadow-lg border-b-4 border-emerald-500 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-50 text-emerald-900 p-2.5 rounded-xl shadow-md font-bold text-2xl border border-emerald-300">
+                    <i data-lucide="book-open-check"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-black tracking-tight flex items-center gap-2">
+                        CHAWPIN QICHWA <span class="bg-emerald-500 text-emerald-950 text-xs px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">Vocabulario Pedagógico</span>
+                    </h1>
+                    <p class="text-xs sm:text-sm text-emerald-100">Ruta de Aprendizaje Interactiva con Tiempos y Recomendaciones</p>
+                </div>
+            </div>
+
+            <!-- Global Progress Card -->
+            <div class="bg-emerald-900/60 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-emerald-700/60 flex items-center gap-4 w-full md:w-auto">
+                <div class="flex-1 md:w-56">
+                    <div class="flex justify-between text-xs font-bold mb-1.5 text-emerald-100">
+                        <span>Progreso de Subtemas</span>
+                        <span id="progress-text">0 / 0 Subtemas</span>
+                    </div>
+                    <div class="w-full bg-emerald-950/80 rounded-full h-3 overflow-hidden border border-emerald-700/50">
+                        <div id="progress-bar" class="bg-gradient-to-r from-emerald-400 to-teal-300 h-3 rounded-full transition-all duration-500 w-0"></div>
+                    </div>
+                </div>
+                <button onclick="resetProgress()" title="Reiniciar progreso completo" class="text-emerald-200 hover:text-white transition-colors p-1.5 hover:bg-emerald-800 rounded-lg">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+
+        <!-- Title Header -->
+        <div class="mb-6 text-center md:text-left">
+            <h1 class="text-4xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-purple-600 to-emerald-700 tracking-tight">
+                Hola pe
+            </h1>
+            <p class="text-xs sm:text-sm text-slate-500 font-semibold mt-1">¡Bienvenido a la guía interactiva del Quechua Central!</p>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="mb-8 flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-emerald-100">
+            <!-- Filters -->
+            <div class="flex flex-wrap gap-2 w-full md:w-auto" id="filter-buttons">
+                <button onclick="filterPath('all')" class="filter-btn active-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 bg-emerald-700 text-white shadow-md">
+                    Todos los Módulos
+                </button>
+                <button onclick="filterPath('fundamentos')" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100">
+                    Fundamentos & Fonética
+                </button>
+                <button onclick="filterPath('comunicacion')" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100">
+                    Comunicación (Rimana)
+                </button>
+                <button onclick="filterPath('matematica')" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100">
+                    Matemática (Yupana)
+                </button>
+                <button onclick="filterPath('vocabulario')" class="filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100">
+                    Campos Semánticos
+                </button>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="relative w-full md:w-72">
+                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-600"></i>
+                <input type="text" id="search-input" placeholder="Buscar concepto o subtema..." oninput="handleSearch()" class="w-full pl-9 pr-4 py-2 rounded-xl border border-emerald-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all">
+            </div>
+        </div>
+
+        <!-- Timeline / Modules Container -->
+        <div class="relative pl-4 sm:pl-8 border-l-4 border-emerald-300 space-y-10 ml-2 sm:ml-6" id="roadmap-container">
+            <!-- Content injected dynamically via JS -->
+        </div>
+
+    </main>
+
+    <!-- Detail Modal -->
+    <div id="detail-modal" class="fixed inset-0 bg-purple-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[92vh] overflow-hidden shadow-2xl flex flex-col border border-orange-300 animate-in fade-in zoom-in duration-200">
+            <!-- Modal Header: Naranja a Morado -->
+            <div class="bg-gradient-to-r from-orange-500 via-amber-600 to-purple-800 text-white p-6 relative">
+                <button onclick="closeModal()" class="absolute right-4 top-4 bg-purple-950/40 hover:bg-purple-950/70 text-white p-2 rounded-full transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                    <span id="modal-category" class="bg-orange-300 text-purple-950 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider">Categoría</span>
+                    <span id="modal-level" class="text-xs bg-purple-900/80 text-orange-100 px-2.5 py-0.5 rounded-md font-medium">Nivel 1</span>
+                    <span id="modal-time" class="text-xs bg-purple-800/80 text-orange-100 px-2.5 py-0.5 rounded-md font-medium flex items-center gap-1">
+                        <i data-lucide="clock" class="w-3 h-3"></i> 0 hrs
+                    </span>
+                </div>
+                <h3 id="modal-title" class="text-2xl sm:text-3xl font-extrabold text-white">Título del Tema</h3>
+                <p id="modal-subtitle" class="text-orange-100 text-sm mt-1">Subtítulo explicativo</p>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 overflow-y-auto space-y-6 custom-scrollbar flex-1 bg-gradient-to-b from-orange-50/40 via-white to-purple-50/30">
+                <!-- Description & Recommendation -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-orange-50/80 p-4 rounded-2xl border border-orange-200 shadow-sm">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-orange-800 mb-1.5 flex items-center gap-1.5">
+                            <i data-lucide="info" class="w-4 h-4 text-orange-600"></i> Descripción
+                        </h4>
+                        <p id="modal-description" class="text-slate-700 leading-relaxed text-xs sm:text-sm"></p>
+                    </div>
+
+                    <div class="bg-purple-50/80 p-4 rounded-2xl border border-purple-200 shadow-sm">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-purple-900 mb-1.5 flex items-center gap-1.5">
+                            <i data-lucide="compass" class="w-4 h-4 text-purple-600"></i> Recomendación de Estudio
+                        </h4>
+                        <p id="modal-recommendation" class="text-slate-700 leading-relaxed text-xs sm:text-sm"></p>
+                    </div>
+                </div>
+
+                <!-- Subtopics Progress Checklist -->
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-purple-950 flex items-center gap-2">
+                            <i data-lucide="list-checks" class="w-4 h-4 text-orange-600"></i>
+                            Subtemas del Módulo (Haz clic para marcar avance)
+                        </h4>
+                        <span id="modal-subtopic-progress" class="text-xs font-bold text-purple-800 bg-purple-100 border border-purple-200 px-2.5 py-1 rounded-full">0/0 completados</span>
+                    </div>
+
+                    <div id="modal-subtopics-list" class="space-y-3">
+                        <!-- Dynamic Checklists Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Pedagogy Tip -->
+                <div class="bg-gradient-to-r from-orange-100 to-purple-100 border border-orange-300 rounded-2xl p-4 flex items-start gap-3 shadow-sm">
+                    <i data-lucide="lightbulb" class="w-5 h-5 text-orange-600 shrink-0 mt-0.5"></i>
+                    <div>
+                        <h5 class="text-xs font-bold uppercase tracking-wider text-purple-950 mb-0.5">Consejo del Manual Minedu</h5>
+                        <p id="modal-tip" class="text-purple-900 text-xs sm:text-sm"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 bg-slate-50 border-t border-purple-100 flex justify-between items-center">
+                <span class="text-xs text-slate-500 font-medium">Guarda cambios automáticamente</span>
+                <button onclick="closeModal()" class="px-5 py-2 rounded-xl font-bold text-sm bg-gradient-to-r from-orange-500 to-purple-700 hover:from-orange-600 hover:to-purple-800 text-white transition-all shadow-md">
+                    Entendido / Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-emerald-950 text-emerald-300 text-xs py-8 border-t border-emerald-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+            <p class="font-bold text-emerald-100">Vocabulario Pedagógico del Quechua Central (Yachachinapaq Shimikuna)</p>
+            <p class="max-w-3xl mx-auto text-emerald-400">Basado en el documento de estandarización y cuadernos de trabajo oficiales DEIB - Ministerio de Educación del Perú (Ancash, Huánuco, Pasco, Junín, La Libertad y Lima Provincias).</p>
+            <p class="text-emerald-500">© 2026 Ruta Didáctica Integrada para la Enseñanza Bilingüe</p>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced Data Structure based on Minedu Book with Granular Subtopics, Recommendations & Estimated Time
+        const roadmapData = [
+            {
+                id: "mod-1",
+                category: "fundamentos",
+                categoryLabel: "Fundamentos & Fonética",
+                title: "1. Alfabeto Unificado y Reglas de Escritura",
+                subtitle: "Achawaya y Normas Ortográficas Estandarizadas",
+                level: "Nivel Inicial",
+                estimatedTime: "2 Semanas (10 Horas)",
+                icon: "type",
+                description: "Estudio exhaustivo del sistema fonético-gráfico oficial del Quechua Central. Se estudian las vocales cortas y largas, así como la resolución unificada de consonantes regionales (/ts/ y /s/).",
+                generalRecommendation: "No intentes memorizar todo el vocabulario de golpe. Dedica los primeros tres días únicamente a dominar el alargamiento vocálico (aa, ii, uu), ya que cambia completamente el significado de las palabras.",
+                tip: "Práctica leyendo en voz alta frente a un espejo para afianzar los sonidos velares y alveolares.",
+                subtopics: [
+                    {
+                        id: "sub-1-1",
+                        quechua: "Achawaya unificado",
+                        spanish: "Alfabeto oficial unificado de 24 letras",
+                        time: "2 Horas",
+                        recommendation: "Memoriza la secuencia del alfabeto oficial quechua. Nota cómo difiere del alfabeto castellano.",
+                        example: "Achawayapa hanllankunata llimpiy. (Pinta las vocales del alfabeto).",
+                        completed: false
+                    },
+                    {
+                        id: "sub-1-2",
+                        quechua: "Hanllakuna (a, i, u / aa, ii, uu)",
+                        spanish: "Vocales simples y alargamiento vocálico",
+                        time: "3 Horas",
+                        recommendation: "Realiza dictados diferenciando vocales cortas (papa) de vocales largas (puukay - soplar).",
+                        example: "Chawpin qichwapaqa suqtami hanllankuna kapun. (El quechua central tiene 6 vocales).",
+                        completed: false
+                    },
+                    {
+                        id: "sub-1-3",
+                        quechua: "Escritura de /ts/ y /s/",
+                        spanish: "Normativa de consonantes centrales dialectales",
+                        time: "3 Horas",
+                        recommendation: "Revisa la sección 2.1 y 2.2 del manual para entender cuándo se escribe <ts> y cuándo <s> según la variante regional.",
+                        example: "Tsiktsi (granizo) - Escribir respetando la guía gráfica unificada de las provincias centrales.",
+                        completed: false
+                    },
+                    {
+                        id: "sub-1-4",
+                        quechua: "Préstamos e Incorporaciones",
+                        spanish: "Adaptación de neologismos y términos externos",
+                        time: "2 Horas",
+                        recommendation: "Identifica las palabras tecnológicas modernas que conservan su ortografía original sin distorsión.",
+                        example: "Laptop, Televisión, Facebook o Refrigeradora se escriben en su forma de origen.",
+                        completed: false
+                    }
+                ]
+            },
+            {
+                id: "mod-2",
+                category: "comunicacion",
+                categoryLabel: "Comunicación (Rimana)",
+                title: "2. Gramática Básica y Sintaxis Oracional",
+                subtitle: "Shimikunapa patsan - Morfosintaxis aglutinante",
+                level: "Nivel Básico",
+                icon: "message-square-code",
+                description: "Comprensión del carácter aglutinante del quechua. Estudio de los tipos de oraciones (afirmativas e imperativas), posición del adjetivo y sufijo de pluralización.",
+                generalRecommendation: "Acostúmbrate al orden de palabras SOV (Sujeto + Objeto + Verbo) y recuerda que el adjetivo SIEMPRE antecede al sustantivo.",
+                tip: "Práctica convirtiendo oraciones afirmativas cotidianas en imperativas para afianzar los sufijos de mandato.",
+                subtopics: [
+                    {
+                        id: "sub-2-1",
+                        quechua: "Awniq rimay",
+                        spanish: "Oración afirmativa",
+                        time: "3 Horas",
+                        recommendation: "Construye 10 oraciones simples siguiendo la estructura estandarizada Sujeto-Objeto-Verbo.",
+                        example: "Kimsa awniq rimaykunata qillqay. (Escribe tres oraciones afirmativas).",
+                        completed: false
+                    },
+                    {
+                        id: "sub-2-2",
+                        quechua: "Kamachikuq rimay",
+                        spanish: "Oración imperativa y de mandato",
+                        time: "3 Horas",
+                        recommendation: "Identifica el sufijo de orden / imperativo en la terminación verbal y contrástalo con el presente afirmativo.",
+                        example: "Kay awniq rimaykunata kamachikuq rimaykunaman tikrachiy. (Convierte estas oraciones a imperativas).",
+                        completed: false
+                    },
+                    {
+                        id: "sub-2-3",
+                        quechua: "Yapaq / Shuti",
+                        spanish: "Relación Adjetivo - Sustantivo",
+                        time: "2 Horas",
+                        recommendation: "Crea listas de atributos antecediendo siempre el adjetivo. Ej: 'Yuraq wasi' (casa blanca).",
+                        example: "Yapaqta shutipa ñawpanmanmi churanchik. (El adjetivo se coloca delante del nombre).",
+                        completed: false
+                    },
+                    {
+                        id: "sub-2-4",
+                        quechua: "Chikayachiy (-kuna, -ya)",
+                        spanish: "Pluralización nominal y sufijación",
+                        time: "3 Horas",
+                        recommendation: "Ejercita la agregación del sufijo '-kuna' en sustantivos concretos y abstractos.",
+                        example: "Shapachaw kaykaq shimikunata chikayachiy. (Pluraliza las palabras que están en singular).",
+                        completed: false
+                    }
+                ]
+            },
+            {
+                id: "mod-3",
+                category: "comunicacion",
+                categoryLabel: "Comunicación (Rimana)",
+                title: "3. Tipología Textual y Redacción Pedagógica",
+                subtitle: "Qillqaykuna - Producción discursiva y conectores",
+                level: "Nivel Intermedio",
+                estimatedTime: "4 Semanas (18 Horas)",
+                icon: "file-text",
+                description: "Desarrollo de competencias de lectura y redacción en diversos géneros: narrativo, descriptivo, argumentativo e instructivo, además de literatura oral (fábulas y adivinanzas).",
+                generalRecommendation: "Utiliza organizadores gráficos como el '
